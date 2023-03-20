@@ -5,9 +5,7 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.WPF", "App.WPF\App.WPF.csproj", "{B832BB24-C0AD-45F0-8BD4-A7C109F7E00F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Algorithm", "Algorithm", "{2F376FF5-1A64-4AC3-A9A0-7B5686BE2D57}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithm", "Algorithm\Algorithm.csproj", "{225BABBF-C6B8-40B2-8C0B-C3B8A21B0BBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Algorithm", "Algorithm\Algorithm.csproj", "{7BE44F5F-02D5-487F-A62D-D65B0E2F7982}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,10 @@ Global
 		{B832BB24-C0AD-45F0-8BD4-A7C109F7E00F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B832BB24-C0AD-45F0-8BD4-A7C109F7E00F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B832BB24-C0AD-45F0-8BD4-A7C109F7E00F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{225BABBF-C6B8-40B2-8C0B-C3B8A21B0BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{225BABBF-C6B8-40B2-8C0B-C3B8A21B0BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{225BABBF-C6B8-40B2-8C0B-C3B8A21B0BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{225BABBF-C6B8-40B2-8C0B-C3B8A21B0BBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BE44F5F-02D5-487F-A62D-D65B0E2F7982}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BE44F5F-02D5-487F-A62D-D65B0E2F7982}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BE44F5F-02D5-487F-A62D-D65B0E2F7982}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BE44F5F-02D5-487F-A62D-D65B0E2F7982}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
