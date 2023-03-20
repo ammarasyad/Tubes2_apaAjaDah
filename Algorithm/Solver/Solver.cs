@@ -4,7 +4,7 @@ namespace DefaultNamespace;
 
 public abstract class Solver<T>
 {
-    protected TreasureMap treasureMap;
+    public TreasureMap TreasureMap;
 
     protected abstract Tuple<int, int> MergerItemGetter(T item);
     protected abstract bool IsFound(int idx1, int idx2, T item);
