@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,22 +14,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace App.WPF
+using DefaultNamespace.Util;
+
+namespace GUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        private string _filePath = null;
+        private string? _filePath;
         public MainWindow()
         {
             InitializeComponent();
         }
-        
+
         private void RadioButtonChecked(object sender, RoutedEventArgs e)
         {
-            RadioButton button = sender as RadioButton;
+            RadioButton? button = sender as RadioButton;
             if (button != null)
             {
                 //MessageBox.Show(button.Content.ToString());
@@ -80,13 +81,13 @@ namespace App.WPF
                 //        }
                 //    }
                 //}
-                //char[,] map = Util.PopulateMapFromFile(_filePath);
-            } 
+                char[,] map = Util.PopulateMapFromFile(_filePath);
+            }
             else
             {
                 MessageBox.Show("Masukkan file yang valid!");
             }
-            
+
         }
     }
 }
