@@ -55,9 +55,9 @@ public class DepthSolver : Solver<Tuple<int, int>>
 
     public override Solution Solve(in bool tsp)
     {
-        var map = treasureMap.MapArr;
-        var (startIdx1, startIdx2) = treasureMap.StartPoint; 
-        var treasureCount = treasureMap.TreasureCount;
+        var map = TreasureMap.MapArr;
+        var (startIdx1, startIdx2) = TreasureMap.StartPoint; 
+        var treasureCount = TreasureMap.TreasureCount;
         
         List<Tuple<int, int>> sequence = new(), tempSequence = new();
         var visited = new bool[map.GetLength(0), map.GetLength(1)];

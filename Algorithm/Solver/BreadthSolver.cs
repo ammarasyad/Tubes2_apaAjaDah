@@ -41,9 +41,9 @@ public class BreadthSolver : Solver<Tuple<bool, int, int>>
 
     public override Solution Solve(in bool tsp)
     {
-        var map = treasureMap.MapArr;
-        var (startIdx1, startIdx2) = treasureMap.StartPoint; 
-        var treasureCount = treasureMap.TreasureCount;
+        var map = TreasureMap.MapArr;
+        var (startIdx1, startIdx2) = TreasureMap.StartPoint; 
+        var treasureCount = TreasureMap.TreasureCount;
         var size = map.GetLength(0);
         
         var trace = new Tuple<bool, int, int>[map.GetLength(0), map.GetLength(1)];
@@ -142,7 +142,7 @@ public class BreadthSolver : Solver<Tuple<bool, int, int>>
             TreasureCount = 3
         };
 
-        var x = new BreadthSolver {treasureMap = treasureMap};
+        var x = new BreadthSolver {TreasureMap = treasureMap};
         
         var solution = x.Solve(true);
         solution.Sequence.ForEach(Console.Write);
