@@ -6,15 +6,26 @@ public class Util
     {
         var lines = File.ReadAllLines(path);
         char[] validChars = { 'K', 'T', 'R', 'X' };
+        var expectedLineLength = lines[0].Replace(Environment.NewLine, "").Replace(" ", "").Length;
 
-        char[,] map = new char[lines.GetLength(0), lines[0].Length];
+        char[,] map = new char[lines.GetLength(0), expectedLineLength];
         for (var i = 0; i < lines.Length; i++)
         {
             string line = lines[i].Replace(Environment.NewLine, "").Replace(" ", "");
-            for (var j = 0; j < line.Length; j++)
+            if (line.Length != expectedLineLength)
+            {
+                throw new Exception(
+                    "Invalid map file. Inconsistent line length." + Environment.NewLine +
+                    "Line: " + i + " Length: " + line.Length + Environment.NewLine +
+                    "Expected Length: " + expectedLineLength
+                    );
+            }
+            for (var j = 0; j < expectedLineLength; j++)
             {
                 if (!validChars.Contains(line[j]))
+                {
                     throw new Exception("Invalid character in map file. Valid characters: K, T, R, X");
+                }
                 map[i, j] = line.ElementAt(j);
             }
         }
