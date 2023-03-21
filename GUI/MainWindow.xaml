@@ -6,10 +6,41 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:Data, IsDesignTimeCreatable=True}"
-        Title="Treasure Hunt Solver" Height="500" Width="800" ResizeMode="NoResize">
+        Title="Treasure Hunt Solver" Height="650" Width="800" ResizeMode="NoResize">
     <Window.DataContext>
         <local:Data/>
     </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate x:Key="NodeGraph">
+            <local:Node Content="{Binding}">
+                <Button.Style>
+                    <Style TargetType="{x:Type local:Node}">
+                        <Setter Property="Background" Value="White"/>
+                        <Setter Property="Height" Value="50"/>
+                        <Setter Property="Width" Value="50"/>
+                        <Style.Triggers>
+                            <Trigger Property="Content" Value="{x:Null}">
+                                <Setter Property="Background" Value="Black"/>
+                            </Trigger>
+                            <!--<DataTrigger Binding="{Binding Path=NodeColor, RelativeSource={RelativeSource Self}}" Value="True">
+                                <Setter Property="Background" Value="White"/>
+                            </DataTrigger>-->
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </local:Node>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Matrix">
+            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource NodeGraph}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 20, 0, 0">
@@ -26,7 +57,7 @@
                         <TextBox Width="100" Text="{Binding FileName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Margin="0, 5, 0, 0"/>
                         <Button Content="Browse" Width="50" Margin="5, 5, 0, 0" Click="Browse_Click">
                             <Button.Style>
-                                <Style TargetType="{x:Type Button}">
+                                <Style TargetType="Button">
                                     <Setter Property="Background" Value="#5E17EB"/>
                                     <Setter Property="Foreground" Value="#E8E0FB"/>
                                     <Setter Property="Template">
@@ -62,14 +93,15 @@
                             </RadioButton.RenderTransform>
                         </RadioButton>-->
                         <Viewbox Height="40" HorizontalAlignment="Left">
-                            <RadioButton Name="BFSButton" GroupName="AlgorithmButton" Margin="5" Content="BFS" FontWeight="Light" Checked="RadioButtonChecked"/>
+                            <RadioButton Name="BFSButton" GroupName="AlgorithmButton" Margin="5" Content="BFS" FontWeight="Light" Checked="RadioButtonChecked" IsChecked="True"/>
                         </Viewbox>
                         <Viewbox Height="40" HorizontalAlignment="Left">
                             <RadioButton Name="DFSButton" GroupName="AlgorithmButton" Margin="5" Content="DFS" FontWeight="Light" Checked="RadioButtonChecked"/>
                         </Viewbox>
+                        <CheckBox Name="TSPCheck" Content="TSP" Margin="5" FontWeight="Light" Click="TSPChecked"/>
                     </StackPanel>
 
-                    <Button Content="Visualize" HorizontalAlignment="Left" Margin="0, 20, 0, 0" Width="100" Click="Visualize_Click">
+                    <!--<Button Content="Visualize" HorizontalAlignment="Left" Margin="0, 20, 0, 0" Width="100" Click="Visualize_Click">
                         <Button.Style>
                             <Style TargetType="{x:Type Button}">
                                 <Setter Property="Background" Value="#5E17EB"/>
@@ -81,7 +113,7 @@
                                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Border>
                                         </ControlTemplate>
-                                    </Setter.Value>
+                                    </Setter.Value> 
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -90,16 +122,17 @@
                                 </Style.Triggers>
                             </Style>
                         </Button.Style>
-                    </Button>
+                    </Button>-->
                 </StackPanel>
                 <Rectangle VerticalAlignment="Stretch" Width="2" Margin="50, 0, 0, 0" Stroke="#5E17EB"/>
                 <StackPanel Orientation="Vertical" Margin="50, 0, 0, 0">
                     <TextBlock Text="Output" FontSize="32px" FontWeight="Bold"/>
                     <StackPanel Orientation="Vertical">
-                        <DataGrid Height="150" Width="150" HorizontalAlignment="Center" Name="dataGrid" VerticalAlignment="Top">
+                        <ItemsControl x:Name="Grid" Height="250" Width="250" ItemTemplate="{DynamicResource Matrix}" BorderBrush="Black" BorderThickness="1px"/>
+                        <!--<DataGrid Height="150" Width="150" HorizontalAlignment="Center" Name="dataGrid" VerticalAlignment="Top">
 
-                        </DataGrid>
-                        <Button Content="Search!" HorizontalAlignment="Center" Margin="0, 20, 0, 0" Width="100">
+                        </DataGrid>-->
+                        <Button Content="Search" HorizontalAlignment="Center" Margin="0, 20, 0, 0" Width="100" Click="Search_Click">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
                                     <Setter Property="Background" Value="#5E17EB"/>
@@ -121,14 +154,26 @@
                                 </Style>
                             </Button.Style>
                         </Button>
-                        <StackPanel Orientation="Vertical">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="Route: " FontSize="24px" FontWeight="Light"/>
-                                <TextBlock Text="Steps: " FontSize="24px" FontWeight="Light" Margin="250, 0, 0, 0"/>
+                        <StackPanel Name="ResultPanel" Orientation="Vertical">
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Route: " FontSize="24px" FontWeight="Light"/>
+                                    <TextBlock Text="{Binding Route}" FontSize="24px" FontWeight="Light" Padding="10, 0, 0, 0" Width="400"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Steps: " FontSize="24px" FontWeight="Light"/>
+                                    <TextBlock Text="{Binding Steps}" FontSize="24px" FontWeight="Light" Padding="10, 0, 0, 0"/>
+                                </StackPanel>
                             </StackPanel>
-                            <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
-                                <TextBlock Text="Nodes: " FontSize="24px" FontWeight="Light"/>
-                                <TextBlock Text="Time: " FontSize="24px" FontWeight="Light" Margin="250, 0, 0, 0"/>
+                            <StackPanel Orientation="Vertical" Margin="0, 10, 0, 0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Nodes: " FontSize="24px" FontWeight="Light"/>
+                                    <TextBlock Text="{Binding Nodes}" FontSize="24px" FontWeight="Light" Padding="10, 0, 0, 0"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Time: " FontSize="24px" FontWeight="Light"/>
+                                    <TextBlock Text="{Binding ExecutionTime}" FontSize="24px" FontWeight="Light" Padding="10, 0, 0, 0"/>
+                                </StackPanel>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
