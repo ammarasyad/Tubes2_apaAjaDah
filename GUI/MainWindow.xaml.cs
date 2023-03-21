@@ -180,6 +180,9 @@ namespace GUI
             }
         }
 
+        /**
+         * Uses color coding: LightBlue for K, LightRed for T
+         */
         private void BuildAndPopulateMatrix(char[,] map, int rows, int cols)
         {
             Grid.DataContext = new MatrixData { Rows = cols, Columns = rows }; // Honestly idk why its inverted
