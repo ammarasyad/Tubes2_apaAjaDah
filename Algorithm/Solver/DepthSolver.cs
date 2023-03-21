@@ -61,6 +61,7 @@ public class DepthSolver : Solver<Tuple<int, int>>
         
         List<Tuple<int, int>> sequence = new(), tempSequence = new();
         var visited = new bool[map.GetLength(0), map.GetLength(1)];
+        CreateOrClearTrace(visited, map, true, false);
         int treasureFound = 0, idx1 = startIdx1, idx2 = startIdx2, nodesCheckedCount = 0;
         var treasureSet = new HashSet<int>();
 
@@ -111,5 +112,29 @@ public class DepthSolver : Solver<Tuple<int, int>>
             NodesCheckedCount = nodesCheckedCount
         };
     }
+    
+    public static void Main()
+    {
+        var arr = new char[,]
+        {
+            {'K', 'R', 'R', 'R', 'R', 'R', 'X'},
+            {'X',  'R', 'X', 'T', 'X',  'R', 'R'},
+            {'X', 'T', 'X', 'R', 'X', 'R', 'X'},
+            {'X', 'R', 'X', 'X', 'X', 'T', 'X'}
+        };
+
+        var treasureMap = new TreasureMap()
+        {
+            MapArr = arr,
+            StartPoint = Tuple.Create(0, 0),
+            TreasureCount = 3
+        };
+
+        var x = new DepthSolver {TreasureMap = treasureMap};
+        
+        var solution = x.Solve(true);
+        solution.Sequence.ForEach(Console.Write);
+    }
+
 
 }
