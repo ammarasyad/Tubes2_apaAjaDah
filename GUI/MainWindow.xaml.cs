@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using DefaultNamespace;
+using System.Threading;
 
 namespace GUI
 {
@@ -23,6 +24,7 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static List<Node> _points = new();
         private string? _filePath;
         private char[,]? _fileMap;
         public MainWindow()
@@ -119,13 +121,44 @@ namespace GUI
                 var dfs = new DepthSolver { TreasureMap = treasureMap };
                 solution = dfs.Solve(Data.TSP);
             }
-            ResultPanel.DataContext = new MatrixData
+            ResultPanel.DataContext = new ResultData
             {
                 Route = string.Join('-', solution.Path.ToArray()),
                 Nodes = solution.NodesCheckedCount.ToString(),
                 Steps = solution.Sequence.Count.ToString(),
                 ExecutionTime = solution.ExecutionTime.ToString() + " ms"
             };
+            Thread thread = new(() => UpdateMatrix(ref solution));
+            thread.Start();
+        }
+        
+        private static void UpdateMatrix(ref Solution solution)
+        {
+            foreach (Tuple<int, int> coord in solution.Sequence)
+            {
+                int x = coord.Item1;
+                int y = coord.Item2;
+                foreach (Node node in _points)
+                {
+                    if (node.X == x && node.Y == y)
+                    {
+                        switch (node.Value)
+                        {
+                            case 'K':
+                                node.Color = "LightSeaGreen";
+                                break;
+                            case 'T':
+                                node.Color = "Crimson";
+                                break;
+                            default:
+                                node.Color = "LightSkyBlue";
+                                break;
+                        }
+                        Thread.Sleep(100);
+                        break;
+                    }
+                }
+            }
         }
 
         private void GetStartingPointAndTreasureCount(in char[,] map, ref Tuple<int, int>? startingPoint, ref int treasureCount)
@@ -148,34 +181,58 @@ namespace GUI
         }
 
         // TODO: Fix this
-        private void BuildAndPopulateMatrix(char[,] map, int height, int width)
+        private void BuildAndPopulateMatrix(char[,] map, int rows, int cols)
         {
             //List<char> mapList = map.Cast<char>().ToList();
-            List<List<string?>> mapList = new();
-            for (int i = 0; i < height; i++)
-            {
-                mapList.Add(new List<string?>());
+            //List<List<string?>> mapList = new();
+            //for (int i = 0; i < height; i++)
+            //{
+            //    mapList.Add(new List<string?>());
 
-                for (int j = 0; j < width; j++)
+            //    for (int j = 0; j < width; j++)
+            //    {
+            //        switch (map[i, j])
+            //        {
+            //            case 'K':
+            //                mapList[i].Add("start");
+            //                break;
+            //            case 'T':
+            //                mapList[i].Add("treasure");
+            //                break;
+            //            case 'R':
+            //                mapList[i].Add("");
+            //                break;
+            //            default:
+            //                mapList[i].Add(null);
+            //                break;
+            //        }
+            //    }
+            //}
+            //Grid.ItemsSource = mapList;
+            Grid.DataContext = new MatrixData { Rows = cols, Columns = rows }; // Honestly idk why its inverted
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
                 {
-                    switch (map[i, j])
-                    {
-                        case 'K':
-                            mapList[i].Add("start");
-                            break;
-                        case 'T':
-                            mapList[i].Add("treasure");
-                            break;
-                        case 'R':
-                            mapList[i].Add("");
-                            break;
-                        default:
-                            mapList[i].Add(null);
-                            break;
-                    }
+                    _points.Add(new Node(i, j, map[i, j]));
+                    //switch (map[i, j])
+                    //{
+                    //    case 'K':
+                    //        _points.Add(new Node(i, j) { Color = "LightBlue" });
+                    //        break;
+                    //    case 'R':
+                    //        _points.Add(new Node(i, j) { Color = "Transparent" });
+                    //        break;
+                    //    case 'T':
+                    //        _points.Add(new Node(i, j) { Color = "LightYellow" });
+                    //        break;
+                    //    default:
+                    //        _points.Add(new Node(i, j) { Color = "Black" });
+                    //        break;
+                    //}
                 }
             }
-            Grid.ItemsSource = mapList;
+            Grid.ItemsSource = _points;
         }
     }
 }

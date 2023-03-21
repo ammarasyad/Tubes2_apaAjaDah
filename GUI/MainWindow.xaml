@@ -6,12 +6,12 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:Data, IsDesignTimeCreatable=True}"
-        Title="Treasure Hunt Solver" Height="650" Width="800" ResizeMode="NoResize">
+        Title="Treasure Hunt Solver" Height="650" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Window.DataContext>
         <local:Data/>
     </Window.DataContext>
     <Window.Resources>
-        <DataTemplate x:Key="NodeGraph">
+        <!--<DataTemplate x:Key="NodeGraph">
             <local:Node Content="{Binding}">
                 <Button.Style>
                     <Style TargetType="{x:Type local:Node}">
@@ -22,9 +22,9 @@
                             <Trigger Property="Content" Value="{x:Null}">
                                 <Setter Property="Background" Value="Black"/>
                             </Trigger>
-                            <!--<DataTrigger Binding="{Binding Path=NodeColor, RelativeSource={RelativeSource Self}}" Value="True">
-                                <Setter Property="Background" Value="White"/>
-                            </DataTrigger>-->
+                            <DataTrigger Binding="{Binding Path=NodeColor, RelativeSource={RelativeSource Self}}" Value="True">
+                                <Setter Property="Background" Value="LightGreen"/>
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Button.Style>
@@ -39,7 +39,7 @@
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
-        </DataTemplate>
+        </DataTemplate>-->
     </Window.Resources>
     <Grid>
         <StackPanel>
@@ -128,10 +128,22 @@
                 <StackPanel Orientation="Vertical" Margin="50, 0, 0, 0">
                     <TextBlock Text="Output" FontSize="32px" FontWeight="Bold"/>
                     <StackPanel Orientation="Vertical">
-                        <ItemsControl x:Name="Grid" Height="250" Width="250" ItemTemplate="{DynamicResource Matrix}" BorderBrush="Black" BorderThickness="1px"/>
-                        <!--<DataGrid Height="150" Width="150" HorizontalAlignment="Center" Name="dataGrid" VerticalAlignment="Top">
-
-                        </DataGrid>-->
+                        <!--<ItemsControl x:Name="Grid" MinHeight="250" MinWidth="250" ItemTemplate="{DynamicResource Matrix}" BorderBrush="Black" BorderThickness="1px"/>-->
+                        <ItemsControl Name="Grid" BorderBrush="Black" BorderThickness="2px">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="{Binding Rows}" Columns="{Binding Columns}" MinHeight="250" MinWidth="0"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="{Binding Path=Color}"
+                                            BorderBrush="Black"
+                                            BorderThickness="1"
+                                            Tag="{Binding}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
                         <Button Content="Search" HorizontalAlignment="Center" Margin="0, 20, 0, 0" Width="100" Click="Search_Click">
                             <Button.Style>
                                 <Style TargetType="{x:Type Button}">
@@ -158,7 +170,7 @@
                             <StackPanel Orientation="Vertical">
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Route: " FontSize="24px" FontWeight="Light"/>
-                                    <TextBlock Text="{Binding Route}" FontSize="24px" FontWeight="Light" Padding="10, 0, 0, 0" Width="400"/>
+                                    <TextBlock Text="{Binding Route}" FontSize="24px" FontWeight="Light" Padding="10, 0, 0, 0" Width="400" TextWrapping="Wrap"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="Steps: " FontSize="24px" FontWeight="Light"/>

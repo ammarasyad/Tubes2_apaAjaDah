@@ -4,38 +4,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace GUI
 {
     public class MatrixData : ViewModelBase
     {
-        private string _route = "";
-        private string _steps = "";
-        private string _nodes = "";
-        private string _executionTime = "";
-
-        public string Route
+        private int _row = 0;
+        private int _col = 0;
+        
+        public int Rows
         {
-            get => _route;
-            set => SetProperty(ref _route, value);
+            get => _row;
+            set => SetProperty(ref _row, value);
         }
-
-        public string Steps
+        
+        public int Columns
         {
-            get => _steps;
-            set => SetProperty(ref _steps, value);
-        }
-
-        public string Nodes
-        {
-            get => _nodes;
-            set => SetProperty(ref _nodes, value);
-        }
-
-        public string ExecutionTime
-        {
-            get => _executionTime;
-            set => SetProperty(ref _executionTime, value);
+            get => _col;
+            set => SetProperty(ref _row, value);
         }
     }
 }
