@@ -26,7 +26,9 @@ namespace GUI
     {
         private static List<Node> _points = new();
         private string? _filePath;
+        private static int _tickValue = 50;
         private char[,]? _fileMap;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -34,8 +36,7 @@ namespace GUI
 
         private void RadioButtonChecked(object sender, RoutedEventArgs e)
         {
-            RadioButton? button = sender as RadioButton;
-            if (button != null)
+            if (sender is RadioButton button)
             {
                 //MessageBox.Show(button.Content.ToString());
                 if (button.Content.ToString() == "BFS")
@@ -53,10 +54,17 @@ namespace GUI
             }
         }
 
+        private void TickSlider_ValueChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is Slider slider)
+            {
+                _tickValue = (int)slider.Value;
+            }
+        }
+
         private void TSPChecked(object sender, RoutedEventArgs e)
         {
-            CheckBox? checkBox = sender as CheckBox;
-            if (checkBox != null)
+            if (sender is CheckBox checkBox)
             {
                 if (checkBox.IsChecked == true)
                 {
@@ -83,8 +91,8 @@ namespace GUI
                 try
                 {
                     _fileMap = Util.PopulateMapFromFile(_filePath);
+                    ClearMatrix();
                     BuildAndPopulateMatrix(_fileMap, _fileMap.GetLength(0), _fileMap.GetLength(1));
-                    MessageBox.Show("Visualize Done");
                 }
                 catch (Exception exc)
                 {
@@ -100,6 +108,8 @@ namespace GUI
                 MessageBox.Show("Import a file first!");
                 return;
             }
+            ClearMatrix();
+            BuildAndPopulateMatrix(_fileMap, _fileMap.GetLength(0), _fileMap.GetLength(1));
             Solution? solution = null;
             Tuple<int, int>? startPoint = null;
             int treasureCount = 0;
@@ -128,11 +138,11 @@ namespace GUI
                 Steps = solution.Sequence.Count.ToString(),
                 ExecutionTime = solution.ExecutionTime.ToString() + " ms"
             };
-            Thread thread = new(() => UpdateMatrix(ref solution));
+            Thread thread = new(() => DisplayMatrix(ref solution));
             thread.Start();
         }
         
-        private static void UpdateMatrix(ref Solution solution)
+        private static void DisplayMatrix(ref Solution solution)
         {
             foreach (Tuple<int, int> coord in solution.Sequence)
             {
@@ -142,23 +152,55 @@ namespace GUI
                 {
                     if (node.X == x && node.Y == y)
                     {
-                        switch (node.Value)
+                        node.Color = "Gold";
+                        Thread.Sleep(_tickValue);
+                        node.Color = node.Value switch
                         {
-                            case 'K':
-                                node.Color = "LightSeaGreen";
-                                break;
-                            case 'T':
-                                node.Color = "Crimson";
-                                break;
-                            default:
-                                node.Color = "LightSkyBlue";
-                                break;
-                        }
-                        Thread.Sleep(100);
-                        break;
+                            'K' => "LightSeaGreen",
+                            'T' => "LimeGreen",
+                            _ => "LightSkyBlue"
+                        };
                     }
                 }
             }
+            //int factor = 10;
+            //foreach (Tuple<int, int> coord in solution.Sequence)
+            //{
+            //    int x = coord.Item1;
+            //    int y = coord.Item2;
+            //    foreach (Node node in _points)
+            //    {
+            //        if (node.X == x && node.Y == y)
+            //        {
+            //            if (node.Color == "LightSkyBlue")
+            //            {
+            //                node.Color = Node.DecreaseColorByFactor(node.Color, factor);
+            //                factor += 10;
+            //                if (factor > 100)
+            //                {
+            //                    factor = 100;
+            //                }
+            //            }
+            //            else
+            //            {
+            //                node.Color = node.Value switch
+            //                {
+            //                    'K' => "LightSeaGreen",
+            //                    'T' => "LimeGreen",
+            //                    _ => "LightSkyBlue",
+            //                };
+            //            }
+            //            Thread.Sleep(_tickValue);
+            //            break;
+            //        }
+            //    }
+            //}
+        }
+
+        private void ClearMatrix()
+        {
+            Grid.DataContext = null;
+            Grid.ItemsSource = null;
         }
 
         private void GetStartingPointAndTreasureCount(in char[,] map, ref Tuple<int, int>? startingPoint, ref int treasureCount)
@@ -186,6 +228,7 @@ namespace GUI
         private void BuildAndPopulateMatrix(char[,] map, int rows, int cols)
         {
             Grid.DataContext = new MatrixData { Rows = cols, Columns = rows }; // Honestly idk why its inverted
+            _points.Clear();
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)

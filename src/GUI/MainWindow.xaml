@@ -6,48 +6,16 @@
         xmlns:local="clr-namespace:GUI"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=local:Data, IsDesignTimeCreatable=True}"
-        Title="Treasure Hunt Solver" Height="650" Width="800" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
+        Title="Treasure Hunt Solver" Height="650" Width="825" SizeToContent="Height" ResizeMode="NoResize">
     <Window.DataContext>
         <local:Data/>
     </Window.DataContext>
-    <Window.Resources>
-        <!--<DataTemplate x:Key="NodeGraph">
-            <local:Node Content="{Binding}">
-                <Button.Style>
-                    <Style TargetType="{x:Type local:Node}">
-                        <Setter Property="Background" Value="White"/>
-                        <Setter Property="Height" Value="50"/>
-                        <Setter Property="Width" Value="50"/>
-                        <Style.Triggers>
-                            <Trigger Property="Content" Value="{x:Null}">
-                                <Setter Property="Background" Value="Black"/>
-                            </Trigger>
-                            <DataTrigger Binding="{Binding Path=NodeColor, RelativeSource={RelativeSource Self}}" Value="True">
-                                <Setter Property="Background" Value="LightGreen"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </local:Node>
-        </DataTemplate>
-
-        <DataTemplate x:Key="Matrix">
-            <ItemsControl ItemsSource="{Binding}" ItemTemplate="{DynamicResource NodeGraph}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>-->
-    </Window.Resources>
     <Grid>
         <StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 20, 0, 0">
+            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0, 20, 0, 0">
                 <TextBlock Text="Treasure Hunt Solver" FontSize="40px" FontWeight="Black"/>
             </StackPanel>
-            <Rectangle VerticalAlignment="Stretch" Height="2" Width="auto" Margin="50, 10, 50, 20" Stroke="#5E17EB" />
-            <!--<Separator Margin="50, 10, 50, 20"/>-->
+            <Rectangle VerticalAlignment="Stretch" Height="2" Width="auto" Margin="50, 10, 50, 20" Stroke="#5E17EB" />-->
             <StackPanel Orientation="Horizontal" Margin="50, 0, 0, 0">
                 <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
                     <TextBlock Text="Input" FontSize="32px" FontWeight="Bold"/>
@@ -81,17 +49,6 @@
 
                     <StackPanel Orientation="Vertical" Margin="0, 20, 0, 0">
                         <TextBlock Text="Algoritma" FontSize="24px" FontWeight="Light" />
-                        <!--<RadioButton Name="BFSButton" GroupName="AlgorithmButton" Margin="5" Content="BFS" FontWeight="Light" Checked="RadioButtonChecked">
-                            <RadioButton.RenderTransform>
-                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            </RadioButton.RenderTransform>
-                        </RadioButton>
-
-                        <RadioButton Name="DFSButton" GroupName="AlgorithmButton" Margin="5" Content="DFS" FontWeight="Light" Checked="RadioButtonChecked">
-                            <RadioButton.RenderTransform>
-                                <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                            </RadioButton.RenderTransform>
-                        </RadioButton>-->
                         <Viewbox Height="40" HorizontalAlignment="Left">
                             <RadioButton Name="BFSButton" GroupName="AlgorithmButton" Margin="5" Content="BFS" FontWeight="Light" Checked="RadioButtonChecked" IsChecked="True"/>
                         </Viewbox>
@@ -99,6 +56,15 @@
                             <RadioButton Name="DFSButton" GroupName="AlgorithmButton" Margin="5" Content="DFS" FontWeight="Light" Checked="RadioButtonChecked"/>
                         </Viewbox>
                         <CheckBox Name="TSPCheck" Content="TSP" Margin="5" FontWeight="Light" Click="TSPChecked"/>
+                        <StackPanel Orientation="Vertical" Margin="0, 20, 0, 0">
+                            <TextBlock Text="Durasi Tick" FontSize="16px" FontWeight="Light"/>
+                            <StackPanel Orientation="Horizontal">
+                                <Slider Name="TickSlider" Maximum="250" Minimum="10" Width="125" Value="{Binding ElementName=TickText, Path=Text}" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="TickSlider_ValueChanged"/>
+                                <TextBlock Name="TickText" Text="{Binding ElementName=TickSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBlock Text="ms" Margin="0, 0, 0, 0"/>
+                            </StackPanel>
+                        </StackPanel>
+                        
                     </StackPanel>
 
                     <!--<Button Content="Visualize" HorizontalAlignment="Left" Margin="0, 20, 0, 0" Width="100" Click="Visualize_Click">
@@ -140,7 +106,9 @@
                                     <Border Background="{Binding Path=Color}"
                                             BorderBrush="Black"
                                             BorderThickness="1"
-                                            Tag="{Binding}"/>
+                                            Tag="{Binding}">
+                                        <TextBlock Text="{Binding Path=Text}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20px" FontWeight="Light"/>
+                                    </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
