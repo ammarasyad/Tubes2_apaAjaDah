@@ -77,6 +77,11 @@ namespace GUI
             }
         }
 
+        /// <summary>
+        /// When clicking browse, an open file dialog will open and users can choose which (valid) file to open for the program.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Browse_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -101,6 +106,11 @@ namespace GUI
             }
         }
 
+        /// <summary>
+        /// When the search button is clicked, the program begins to search for the appropriate path with the chosen method.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Search_Click(object sender, RoutedEventArgs e)
         {
             if (_fileMap == null)
@@ -142,6 +152,10 @@ namespace GUI
             thread.Start();
         }
         
+        /// <summary>
+        /// Method to display the matrix. Spawned with another thread to prevent a synchronization lock on the main thread.
+        /// </summary>
+        /// <param name="solution"></param>
         private static void DisplayMatrix(ref Solution solution)
         {
             foreach (Tuple<int, int> coord in solution.Sequence)
@@ -163,46 +177,23 @@ namespace GUI
                     }
                 }
             }
-            //int factor = 10;
-            //foreach (Tuple<int, int> coord in solution.Sequence)
-            //{
-            //    int x = coord.Item1;
-            //    int y = coord.Item2;
-            //    foreach (Node node in _points)
-            //    {
-            //        if (node.X == x && node.Y == y)
-            //        {
-            //            if (node.Color == "LightSkyBlue")
-            //            {
-            //                node.Color = Node.DecreaseColorByFactor(node.Color, factor);
-            //                factor += 10;
-            //                if (factor > 100)
-            //                {
-            //                    factor = 100;
-            //                }
-            //            }
-            //            else
-            //            {
-            //                node.Color = node.Value switch
-            //                {
-            //                    'K' => "LightSeaGreen",
-            //                    'T' => "LimeGreen",
-            //                    _ => "LightSkyBlue",
-            //                };
-            //            }
-            //            Thread.Sleep(_tickValue);
-            //            break;
-            //        }
-            //    }
-            //}
         }
 
+        /// <summary>
+        /// Clears the matrix.
+        /// </summary>
         private void ClearMatrix()
         {
             Grid.DataContext = null;
             Grid.ItemsSource = null;
         }
 
+        /// <summary>
+        /// Determines the starting point and the treasure count. Used as a helper method for BFS and DFS.
+        /// </summary>
+        /// <param name="map">The imported file</param>
+        /// <param name="startingPoint">Reference to the startingPoint tuple</param>
+        /// <param name="treasureCount">Reference to the treasureCount integer</param>
         private void GetStartingPointAndTreasureCount(in char[,] map, ref Tuple<int, int>? startingPoint, ref int treasureCount)
         {
             treasureCount = 0;
@@ -222,9 +213,12 @@ namespace GUI
             }
         }
 
-        /**
-         * Uses color coding: LightBlue for K, LightRed for T
-         */
+        /// <summary>
+        /// Builds (sets the appropriate rows and columns) and populates (creates each node) the matrix.
+        /// </summary>
+        /// <param name="map">The imported file</param>
+        /// <param name="rows">Number of rows</param>
+        /// <param name="cols">Number of columns</param>
         private void BuildAndPopulateMatrix(char[,] map, int rows, int cols)
         {
             Grid.DataContext = new MatrixData { Rows = cols, Columns = rows }; // Honestly idk why its inverted

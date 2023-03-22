@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace GUI
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml, specifically for showing the results.
+    /// </summary>
     public class ResultData : ViewModelBase
     {
         private string _route = "";

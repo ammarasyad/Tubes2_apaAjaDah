@@ -8,6 +8,9 @@ using System.Drawing;
 
 namespace GUI
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml.
+    /// </summary>
     public class Data : ViewModelBase
     {
         private string _fileName = "file.txt";
@@ -39,9 +42,5 @@ namespace GUI
             get => _tsp;
             set => _tsp = value;
         }
-
-        //public static bool BFS = true;
-        //public static bool DFS = false;
-        //public static bool TSP = false;
     }
 }

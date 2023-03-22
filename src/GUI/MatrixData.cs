@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace GUI
 {
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml, specifically for the matrix data.
+    /// </summary>
     public class MatrixData : ViewModelBase
     {
         private int _row = 0;

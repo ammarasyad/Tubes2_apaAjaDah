@@ -9,6 +9,9 @@ using System.Windows.Controls;
 
 namespace GUI
 {
+    /// <summary>
+    /// Node class for the matrix.
+    /// </summary>
     public class Node
     {
         private string _color = "Black";
@@ -46,13 +49,6 @@ namespace GUI
                 _color = value;
                 ColorChanged?.Invoke(this, EventArgs.Empty);
             }
-        }
-
-        public static string DecreaseColorByFactor(string color, int factor)
-        {
-            var colorValue = ColorTranslator.FromHtml(color);
-            var newColor = System.Drawing.Color.FromArgb(colorValue.A, colorValue.R - factor, colorValue.G - factor, colorValue.B - factor);
-            return ColorTranslator.ToHtml(newColor);
         }
     }
 }

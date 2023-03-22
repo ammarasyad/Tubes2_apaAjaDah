@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace GUI.Common
 {
+    /// <summary>
+    /// Using the MVVM design pattern, this class handles property changes and serves as its interface.
+    /// </summary>
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
