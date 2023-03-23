@@ -18,6 +18,7 @@ namespace GUI
         
         public Node(int x, int y, char value)
         {
+            Visited = 0;
             X = x;
             Y = y;
             Color = (Value = value) switch
@@ -34,7 +35,8 @@ namespace GUI
                 _ => ""
             };
         }
-        
+
+        public int Visited { get; set; }
         public int X { get; private set; }
         public int Y { get; private set; }
         public char Value { get; private set; }
@@ -46,9 +48,23 @@ namespace GUI
             get => _color;
             set
             {
-                _color = value;
+                _color = DecreaseColorByVisit(value);
                 ColorChanged?.Invoke(this, EventArgs.Empty);
             }
+        }
+        /// <summary>
+        /// Make node darker each time it gets visited
+        /// </summary>
+        /// <param name="oldColor"></param>
+        /// <returns></returns>
+        public string DecreaseColorByVisit(string oldColor)
+        {
+            var colorFromString = ColorTranslator.FromHtml(oldColor);
+            var newColor = System.Drawing.Color.FromArgb(colorFromString.A, 
+                Math.Max(colorFromString.R - Visited*30, 0),
+                Math.Max(colorFromString.G - Visited*30, 0),
+                Math.Max(colorFromString.B - Visited*30, 0));
+            return ColorTranslator.ToHtml(newColor);
         }
     }
 }

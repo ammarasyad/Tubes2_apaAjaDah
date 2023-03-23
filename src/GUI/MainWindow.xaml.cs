@@ -172,8 +172,9 @@ namespace GUI
                         {
                             'K' => "LightSeaGreen",
                             'T' => "LimeGreen",
-                            _ => "LightSkyBlue"
+                            _ => "SkyBlue"
                         };
+                        node.Visited++;
                     }
                 }
             }
