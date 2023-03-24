@@ -56,7 +56,7 @@ namespace GUI
         /// Make node darker each time it gets visited
         /// </summary>
         /// <param name="oldColor"></param>
-        /// <returns></returns>
+        /// <returns>New color decreased by a factor of 30 for each RGB channel</returns>
         public string DecreaseColorByVisit(string oldColor)
         {
             var colorFromString = ColorTranslator.FromHtml(oldColor);
